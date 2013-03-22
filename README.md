@@ -2,3 +2,6 @@ MAB522
 ======
 
 MAB522_2013_01
+
+GIT for QUT MAB522 Group 4.
+
