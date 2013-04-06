@@ -19,8 +19,8 @@ bcvec = [H, 1, H*c0, 0, 1, 0];
 %bcvec = [H, 1, H*c0, H, 1, 0];
 
 %% Numerical parameters
-final_time = 2;                                 % final time to step to
-time_steps = 500;                               % number of time steps
+final_time = 10;                                 % final time to step to
+time_steps = 2500;                               % number of time steps
 subintervals = 50;                              % number of subintervals in mesh
 method = @MAB522_solver_backward_euler;   % numerical method
 
@@ -41,7 +41,7 @@ tvec = linspace(0, final_time, num_plots+1);    % vector of output times
 
 %% Compute numerical solution
 phi0 = zeros(1, subintervals + 1); phi0(1) = c0;
-numerical = method(u, D, phi0, x, dt, time_steps, bcvec, every);
+numerical = method(u, D, phi0, x, dt, time_steps, bcvec, every, 'sudden');
 
 %% Compute exact solution on same mesh
 [X,T] = meshgrid(x, tvec);
