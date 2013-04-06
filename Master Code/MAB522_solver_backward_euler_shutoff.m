@@ -61,7 +61,9 @@ end
 B = spdiags(diags,-1:1,N,N);
 
 % Adjust for boundary conditions
-
+% As we have dynamic bouyndary conditions, we need to re-evaluate the
+% conditions at each boundary step. This should be done prior to each
+% timestep computation, such that the conditions are always curent.
 B(1,1) = 1 + (((-u/2) + (D/dxe(1)) + (D*bcvec(1)/bcvec(2)))*(dt/delxP(1)));
 B(1,2) = -((-u/2) + (D/dxe(1)))*(dt/delxP(1));
 
