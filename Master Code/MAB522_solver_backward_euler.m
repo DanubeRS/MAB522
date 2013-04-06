@@ -24,21 +24,24 @@ dxw = zeros(N-1,1);
 dxe = zeros(N-1,1);
 delxP = zeros(N,1);
 
-for i = 1:N
-    if i == 1
-        dxe(i) = x(i+1) - x(i);
-        delxP(i) = dxe(i)/2;
-    elseif i == N
-        dxw(i-1) = x(i) - x(i-1);
-        delxP(i) = dxw(i-1)/2;
-    else
-        dxw(i-1) = x(i) - x(i-1);
-        dxe(i) = x(i+1) - x(i);
-        delxP(i) = (dxw(i-1)/2) + (dxe(i)/2);
-    end
+%% Calculate nodular and CV widths from provided meshing scheme
+% Left End
+dxe(1) = x(2) - x(1);    % Left end next node (east)
+delxP(1) = dxe(1)/2;     % Left end CV width
+
+%Right end
+dxw(N-1) = x(N) - x(N-1);   % Right end next node (west)
+delxP(N) = dxw(N-1)/2;      % Right end CV width
+
+%Internal deltas
+for i = 2:N-1
+    dxw(i-1) = x(i) - x(i-1);
+    dxe(i) = x(i+1) - x(i);
+    delxP(i) = (dxw(i-1)/2) + (dxe(i)/2);
 end
 
-diags = zeros(N,3);
+%% Construct coeficcient matrix (A matrix)
+diags = zeros(N,3); % Empty 3 wide matrix (to be turned into tri-diagonal system)
 for j = 1:N
    if j == 1
         diags(j,1) = -((dt/delxP(j+1))*((u/2) + (D/dxw(j))));
